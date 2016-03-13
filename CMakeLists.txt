@@ -66,6 +66,16 @@ if(LTO MATCHES "ON")
             find_program(RQ_NM "gcc-nm")
             find_program(RQ_RANLIB "gcc-ranlib")
         endif()
+        if (RQ_AR MATCHES "NOTFOUND")
+        message(SEND_ERROR "LTO Requested but cannot find ar for your compiler")
+        endif(RQ_AR MATCHES "NOTFOUND")
+        if (RQ_NM MATCHES "NOTFOUND")
+        message(SEND_ERROR "LTO Requested but cannot find nm for your compiler")
+        endif(RQ_NM MATCHES "NOTFOUND")
+        if (RQ_RANLIB MATCHES "NOTFOUND")
+        message(SEND_ERROR "LTO Requested but cannot find ranlib for your compiler")
+        endif(RQ_RANLIB MATCHES "NOTFOUND")
+        
         set(CMAKE_AR ${RQ_AR})
         set(CMAKE_NM ${RQ_NM})
         set(CMAKE_RANLIB ${RQ_RANLIB})
@@ -348,8 +358,15 @@ add_custom_target(everything DEPENDS Make_static_deterministic tests examples do
 
 
 install(FILES ${HEADERS} DESTINATION include/RaptorQ/)
-install(TARGETS RaptorQ RaptorQ_Static
+if (STATIC_LIB MATCHES "ON")
+install(TARGETS RaptorQ_Static 
      LIBRARY DESTINATION lib COMPONENT libraries
      ARCHIVE DESTINATION lib COMPONENT libraries)
+endif (STATIC_LIB MATCHES "ON")
+if (DYNAMIC_LIB MATCHES "ON")
+install(TARGETS RaptorQ 
+     LIBRARY DESTINATION lib COMPONENT libraries
+     ARCHIVE DESTINATION lib COMPONENT libraries)
+endif (DYNAMIC_LIB MATCHES "ON")
 
 
