@@ -275,7 +275,7 @@ if(STATIC_LIB MATCHES "ON")
         PROPERTIES
         LINK_FLAGS "-Wl,-z,now,-z,relro -pie ${LD_OPT}"
     )
-    set_property(TARGET RaptorQ_Static PROPERTY ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
+    set_property(TARGET RaptorQ_Static PROPERTY ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
 
 	# make the library deterministic (only on *nix)
     add_executable(make_deterministic src/deterministic.cpp)
@@ -285,7 +285,7 @@ if(STATIC_LIB MATCHES "ON")
     )
     add_custom_command(
         OUTPUT deterministic.run
-        COMMAND make_deterministic ${CMAKE_SOURCE_DIR}/lib/libRaptorQ.a
+        COMMAND make_deterministic ${CMAKE_CURRENT_BINARY_DIR}/lib/libRaptorQ.a
         DEPENDS RaptorQ_Static
         COMMENT "Removing creation date from library..."
         VERBATIM
@@ -319,7 +319,7 @@ if(DYNAMIC_LIB MATCHES "ON")
         PROPERTIES
         LINK_FLAGS "-Wl,-z,now,-z,relro ${LD_OPT}"
     )
-    set_property(TARGET RaptorQ PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
+    set_property(TARGET RaptorQ PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/lib")
 endif()
 
 
