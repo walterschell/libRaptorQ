@@ -31,8 +31,11 @@ endif()
 
 
 include(GNUInstallDirs)
-
+if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
 option(DYNAMIC_LIB "Build dynamic library" ON)
+else()
+option(DYNAMIC_LIB "Build dynamic library" OFF)
+endif(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
 option(STATIC_LIB "Build static library" ON)
 option(CLANG_STDLIB "Use clang's libc++" OFF)
 
